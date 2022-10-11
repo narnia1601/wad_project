@@ -1,11 +1,11 @@
 <script setup>
   import Header from './components/Header.vue'
-  import Body from './components/Body.vue'
+  import Home from './components/Home.vue'
 </script>
 
 <template>
   <Header></Header>
-  <Body></Body>
+  <router-view></router-view>
 </template>
 
 <style scoped>
