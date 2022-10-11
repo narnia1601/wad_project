@@ -8,7 +8,7 @@
         <div class="col-6 pt-4 px-4 d-flex align-items-center">
             <div class="row">
                 <div class="col-2"></div>
-                <div class="col">
+                <div class="col" id="about">
                     <div class="card shadow p-3 mb-5 bg-body rounded rounded-4 text-center">
                         <div class="card-body">
                             <h1 class="card-title">About us</h1>
@@ -28,5 +28,16 @@
         background: url('../assets/holiday.jpeg');
         background-size: cover;
         height: 85vh;
+  }
+  #about{
+    animation: moveToRight 1s;
+  }
+  @keyframes moveToRight {
+    0% {
+        transform: translateX(-20px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
   }
 </style>
