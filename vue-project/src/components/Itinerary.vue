@@ -1,8 +1,18 @@
 <script setup>
+    import ItinerarySearch from './itinerary/ItinerarySearch.vue'
 </script>
 
 <template>
-  <h1>Itinerary page</h1>
+  <div class="container">
+    <ItinerarySearch></ItinerarySearch>
+    <div class="row">
+        <div class="col">
+            
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
