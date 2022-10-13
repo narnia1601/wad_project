@@ -3,7 +3,10 @@
 </script>
 
 <template>
-   <div class="card bg-dark rounded rounded-4" style="width: 18rem">
+    <div id="card" class="card rounded rounded-4 shadow-sm">
+        <div>
+            <img id="heart" src="../../assets/heart.png"/>
+        </div>
         <div :id="name" class="carousel slide" data-bs-ride="false">
         <div class="carousel-indicators">
             <button type="button" :data-bs-target="'#' + name" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -32,7 +35,13 @@
         </div>
     </div>
     <div class="mt-2">
-        <h5>Singapore</h5>
+        <div class="d-flex justify-content-between">
+            <h5>Singapore</h5>
+            <div>
+                <img id="star" class="me-1" src='../../assets/star.png'/>
+                <span>4.89 / 5</span>
+            </div>
+        </div>
         <p class="text-muted">5 locations</p>
     </div>
 </template>
@@ -46,5 +55,20 @@
 <style scoped>
     h5{
         margin-bottom: 0px;
+    }
+    #star{
+        width: 20px;
+        height: 20px;
+        transform: translateY(-2px);
+    }
+    #heart{
+        width: 23px;
+        height: 23px;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    #card{
+        position: relative;
     }
 </style>
