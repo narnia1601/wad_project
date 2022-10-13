@@ -3,21 +3,26 @@
 </script>
 
 <template>
-    <div class="mt-3">
-        <input type="text" class="form-control" placeholder="Enter a country">
+    <div class="row mt-3">
+        <div class="col-3"></div>
+        <div class="col">
+          <input type="text" class="form-control rounded rounded-4 col-6" placeholder="Enter a country">
+        </div>
+        <div class="col-3"></div>
     </div>
     <div class="row mt-3">
-        <ItineraryContinent class="col" img="africa"></ItineraryContinent>
-        <ItineraryContinent class="col" img="asia"></ItineraryContinent>
-        <ItineraryContinent class="col" img="australia"></ItineraryContinent>
-        <ItineraryContinent class="col" img="europe"></ItineraryContinent>
-        <ItineraryContinent class="col" img="north-america"></ItineraryContinent>
-        <ItineraryContinent class="col" img="north-america"></ItineraryContinent>
+        <ItineraryContinent class="col" v-for="continent in continents" :img="continent"></ItineraryContinent>
     </div>
 </template>
 
 <script>
-    
+    export default {
+        data(){
+            return {
+                continents: ['africa','asia','australia','europe','north-america','south-america']
+            }
+        }
+    }
 </script>
 
 <style scoped>

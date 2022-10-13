@@ -5,7 +5,7 @@
     <div class="card rounded rounded-4 shadow mx-4" id="card">
         <div class="card-body text-center">
             <img :src="printImage"/>
-            <h4>{{ printContinentName }}</h4>
+            <h6>{{ printContinentName }}</h6>
         </div>
     </div>
 </template>

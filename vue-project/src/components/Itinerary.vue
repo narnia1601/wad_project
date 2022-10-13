@@ -1,17 +1,12 @@
 <script setup>
     import ItinerarySearch from './itinerary/ItinerarySearch.vue'
+    import ItineraryList from './itinerary/ItineraryList.vue'
 </script>
 
 <template>
   <div class="container">
     <ItinerarySearch></ItinerarySearch>
-    <div class="row">
-        <div class="col">
-            
-        </div>
-        <div class="col"></div>
-        <div class="col"></div>
-    </div>
+    <ItineraryList></ItineraryList>
   </div>
 </template>
 

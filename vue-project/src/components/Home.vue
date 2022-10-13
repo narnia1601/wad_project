@@ -52,7 +52,7 @@
     created(){
       setTimeout(this.typeText, this.newTextDelay + 200)
     },
-    computed: {
+    methods: {
       typeText(){
         if(this.charIndex < this.typeArray[this.typeArrayIndex].length){
           if(!this.typeStatus){
