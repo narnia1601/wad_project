@@ -94,7 +94,7 @@
     #background{
         background: url('../assets/background.gif'); 
         background-size: cover;
-        height: 85vh;
+        height: 100vh;
         padding-top: 100px;
     }
     a{
