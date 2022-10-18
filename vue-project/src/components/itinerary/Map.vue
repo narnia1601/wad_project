@@ -39,7 +39,7 @@
 
 <style scoped>
     #map {
-        height: 400px;
+        height: 500px;
         width: 100%;
     }
 </style>

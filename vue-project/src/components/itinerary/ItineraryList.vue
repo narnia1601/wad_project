@@ -5,7 +5,7 @@
 <template>
     <div class="mt-4">
         <div class="row">
-            <div class="col-3 mb-4" v-for="card in cardsNum">
+            <div class="col-3 mb-4" :key="card.id" v-for="card in cardsNum">
                 <ItineraryCard :name="'carouselCaptions' + card"></ItineraryCard>
             </div>
         </div>

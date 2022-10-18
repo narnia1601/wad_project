@@ -1,37 +1,44 @@
+<script setup>
+  import About from './About.vue'
+</script>
+
 <template>
-  <div id="background">
-    <div class="container px-4">
-      <div class="row">
-        <div class="col">
-          <span class="typed-text">{{ typeValue }}</span>
-          <span class="cursor" :class="{'typing': typeStatus}">&nbsp;</span>
-        </div>
-        <div class="col px-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Login</h5>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" id="email" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-control">
-                <div class="form-text text-end">
-                  <a href="#" class="text-secondary">Forgot password?</a>
+  <div>
+    <div id="background">
+      <div class="container px-4">
+        <div class="row">
+          <div class="col">
+            <span class="typed-text">{{ typeValue }}</span>
+            <span class="cursor" :class="{'typing': typeStatus}">&nbsp;</span>
+          </div>
+          <div class="col px-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" id="email" class="form-control">
                 </div>
-              </div>
-              <div class="mb-3">
-                <button class="btn btn-primary" id="login">Login</button>
-              </div>
-              <div class="form-text text-center">
-                  <p>Don't have an account? <a href="">Sign Up</a></p>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" id="password" class="form-control">
+                  <div class="form-text text-end">
+                    <a href="#" class="text-secondary">Forgot password?</a>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button class="btn btn-primary" id="login">Login</button>
+                </div>
+                <div class="form-text text-center">
+                    <p>Don't have an account? <a href="">Sign Up</a></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <About></About>
   </div>
 </template>
 
