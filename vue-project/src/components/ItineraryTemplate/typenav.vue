@@ -25,7 +25,7 @@
         } 
     </script>
 
-    <style>
+    <style scoped>
     .uploading-image{
         display:flex;
     }
