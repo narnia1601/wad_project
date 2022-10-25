@@ -3,6 +3,8 @@ import Home from '../components/Home.vue'
 import Itineraries from '../components/Itineraries.vue'
 import Itinerary from '../components/Itinerary.vue'
 import IndividualItinerary from '../components/IndividualItinerary/IndividualItinerary.vue'
+import Dashboard from '../components/dashboard/Dashboard.vue'
+import ItineraryTemplate from '../components/ItineraryTemplate/ItineraryTemplate.vue'
 
 const routes = [
     {
@@ -20,6 +22,14 @@ const routes = [
     {
         path: '/individualitinerary',
         component: IndividualItinerary
+    },
+    {
+        path: '/dashboard',
+        component: Dashboard
+    },
+    {
+        path: '/itinerarytemplate',
+        component: ItineraryTemplate
     }
 ]
 

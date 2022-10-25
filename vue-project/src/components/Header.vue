@@ -16,6 +16,9 @@
           <li class="nav-item">
             <a href="#about" class="nav-link">About</a>
           </li>
+          <li class="nav-item">
+            <a href="itinerarytemplate" class="nav-link">Create Template</a>
+          </li>
         </ul>
       </div>
     </div>
