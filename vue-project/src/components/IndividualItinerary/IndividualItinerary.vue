@@ -2,10 +2,10 @@
     <div class="container-fluid p-0">
 
         <!-- Header -->
-        <IndividualItineraryHeader mainHeader="A Taste Of Italy" secondHeader="10 days" />
+        <IndividualItineraryHeader mainHeader="A Taste Of Italy" secondHeader="6 days" />
 
         <!-- Days scroll bar -->
-        <DayNav numDays="10" />
+        <DayNav numDays="6" />
 
         <hr class="mt-2 mb-2">
 
@@ -20,6 +20,10 @@
                     <ContentBox />
                     <ContentBox />
                     <ContentBox />
+
+                    <!-- Comment Boxes -->
+                    <CommentBox />
+
                 </div>
 
                 <!-- Map col -->
@@ -38,6 +42,8 @@ import DayNav from './DayNav.vue'
 import TypeNav from './TypeNav.vue'
 import ContentBox from './ContentBox.vue'
 import Map from '../itinerary/Map.vue'
+import CommentBox from './CommentBox.vue'
+
 export default {
     name: 'IndividualItinerary',
     components: {
@@ -45,7 +51,8 @@ export default {
         DayNav,
         TypeNav,
         ContentBox,
-        Map
+        Map,
+        CommentBox
     },
 }
 </script>
