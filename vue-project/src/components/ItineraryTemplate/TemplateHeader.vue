@@ -12,10 +12,34 @@
         <div v-if="days != 0" class="mx-auto">
             <div v-for="(number,idx) in checkweek">
                 <p>Week {{idx+1}}</p>
-                <button v-for="num in number" class="btn btn-outline-warning text-dark m-1 mb-3">
-                    Day {{num}}
+                
+                <!-- <button v-for="num in number" @click="openDay(num)" class="btn btn-outline-warning text-dark m-1 mb-3" type="button" data-bs-toggle="collapse" >
+                Day {{num}}
                 </button>
-            </div><br>
+
+                <div class="collapse" id="collapseExample">
+                    
+                    <div class="card card-body" >
+                        Day {{currentDay}} 
+                        <b><typenav></typenav></b> 
+                    </div>
+                </div> -->
+
+                <button v-for="num in number" @click="openDay(num)" class="btn btn-outline-warning text-dark m-1 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Day {{num}}
+                </button>
+                
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        Day {{currentDay}} 
+                        <b><typenav></typenav></b> 
+                    </div> 
+                </div>
+                        
+            </div>
+        <br>   
+        
+
         </div>
     </div>
     
@@ -24,18 +48,21 @@
 
 <script>
 import nametemplate from './nametemplate.vue'
+import typenav from './typenav.vue'
 
 export default {
     name: 'TemplateHeader',
     components: {
-        nametemplate
+        nametemplate,
+        typenav
     },
-    props: ['mainHeader', 'secondHeader', 'day'],
+    props: ['mainHeader', 'secondHeader', 'day', 'nums'],
     data() {
         return {
             days: 0,
             daylist: [],
-            testlist: 30
+            testlist: 30,
+            currentDay: null
         }
     },
     computed: {
@@ -74,8 +101,16 @@ export default {
                 return array2
             }
         }
+    },
+        methods:{
+            openDay(number) {
+                this.currentDay = number
+            }
+                
+        }
+        
     }
-}
+
 
 </script>
 

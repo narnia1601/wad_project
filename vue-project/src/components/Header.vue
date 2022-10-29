@@ -19,6 +19,18 @@
           <li class="nav-item">
             <a href="itinerarytemplate" class="nav-link">Create Template</a>
           </li>
+          <li class="nav-item">
+            <a href="itineraries" class="nav-link">Itineraries</a>
+          </li>
+          <li class="nav-item">
+            <a href="map" class="nav-link">Map</a>
+          </li>
+          <li class="nav-item">
+            <a href="individualitinerary" class="nav-link">Individual Itinerary</a>
+          </li>
+          <li class="nav-item">
+            <a href="dashboard" class="nav-link">Dashboard</a>
+          </li>
         </ul>
       </div>
     </div>

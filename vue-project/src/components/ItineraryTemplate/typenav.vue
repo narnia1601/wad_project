@@ -12,15 +12,21 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="Attraction" role="tabpanel" aria-labelledby="Attraction-tab">...</div>
-            <div class="tab-pane fade" id="Food" role="tabpanel" aria-labelledby="Food-tab">...</div>
-            <div class="tab-pane fade" id="Stay" role="tabpanel" aria-labelledby="Stay-tab">...</div>
+            <div class="tab-pane fade show active" id="Attraction" role="tabpanel" aria-labelledby="Attraction-tab"><br><formtemplate></formtemplate></div>
+            <div class="tab-pane fade" id="Food" role="tabpanel" aria-labelledby="Food-tab"><br><formtemplate></formtemplate></div>
+            <div class="tab-pane fade" id="Stay" role="tabpanel" aria-labelledby="Stay-tab"><br><formtemplate></formtemplate></div>
         </div>
-    </template>
+</template>
     
     <script>
+
+    import formtemplate from './formtemplate.vue';
+
         export default {
             name:'typenav',
+            components: {
+                formtemplate
+            }
             
         } 
     </script>

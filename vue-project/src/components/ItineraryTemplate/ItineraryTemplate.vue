@@ -5,9 +5,9 @@
         <TemplateHeader mainHeader="Create an Itinerary" secondHeader="Number of Days: "></TemplateHeader>
 
         <!-- Type of itinerary -->
-        <typenav></typenav>
+        <!-- <typenav></typenav> -->
 
-        <formtemplate></formtemplate>
+        <!-- <formtemplate></formtemplate> -->
 
     </div>
 </template>
