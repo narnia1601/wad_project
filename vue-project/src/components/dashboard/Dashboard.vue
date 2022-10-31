@@ -1,40 +1,59 @@
 <script setup>
-import SaveCreate from './SaveCreate.vue'
-import AccountCard from './AccountCard.vue'
-import VisitedMap from './VisitedMap.vue'
-
-
-
+    import Itineraries from '../Itineraries.vue'
 </script>
 
 <template>
-    <div class='container-fluid'>
-        <div class='row'>
-            <div class='col-5 order-sm1'>
-                <AccountCard>
-
-                </AccountCard>
-            </div>
-            <div class='col-7 '>
-                    <div class="map">
-                        <VisitedMap></VisitedMap>
-                    </div>
-
-                    <div >
-                        <!-- Saved & Created Itineraries -->
-                        <SaveCreate>
-
-                        </SaveCreate>
-                    </div>
-                
-            </div>
-
-        </div>
-
-    </div>
-
-    <div>
-
-
+    <div class='container-fluid' id="dashboard">
+        <h1>Hello<span v-if="firstName.length > 0">, {{ firstName }}</span></h1>
+        <div id="background"></div>
+        <Itineraries></Itineraries>
     </div>
 </template>
+
+<script>
+import VueCookies from 'vue-cookies'
+import axios from 'axios'
+export default {
+    mounted() {
+        this.getUser()
+        const cookie = VueCookies.get('id')
+        if(cookie == null){
+            this.$router.push('/')
+        }
+        if(localStorage.getItem('reloaded')){
+            localStorage.removeItem('reloaded')
+        }else{
+            localStorage.setItem('reloaded', '1')
+            location.reload()
+        }
+    },
+    data() {
+        return {
+            firstName: '',
+        }
+    },
+    methods: {
+        getUser(){
+            const cookie = VueCookies.get('id')
+            const url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/user'
+            axios.get(url, {
+                params: {
+                    _id: cookie
+                }
+            })
+            .then(res => {
+                this.firstName = res.data.firstName
+            })
+        }
+    }
+}
+</script>
+
+<style scoped>
+    #background{
+        background: url('../../assets/individualitinerary-pic1.jpg') no-repeat;
+        background-size: cover;
+        height: 40vh;
+        background-position: center;
+    }
+</style>

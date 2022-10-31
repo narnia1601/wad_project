@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
@@ -14,28 +11,37 @@
             <router-link to="/" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
-            <a href="#about" class="nav-link">About</a>
+            <a href="/new" class="nav-link">Create Itinerary</a>
           </li>
           <li class="nav-item">
-            <a href="itinerarytemplate" class="nav-link">Create Template</a>
-          </li>
-          <li class="nav-item">
-            <a href="itineraries" class="nav-link">Itineraries</a>
-          </li>
-          <li class="nav-item">
-            <a href="map" class="nav-link">Map</a>
-          </li>
-          <li class="nav-item">
-            <a href="individualitinerary" class="nav-link">Individual Itinerary</a>
-          </li>
-          <li class="nav-item">
-            <a href="dashboard" class="nav-link">Dashboard</a>
+            <a href="/" v-if="cookie != null" @click='logout' class="nav-link">Logout</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+  import VueCookies from 'vue-cookies'
+  export default {
+    data() {
+      return {
+        cookie: ''
+      }
+    },
+    created() {
+      const cookie = VueCookies.get('id')
+      this.cookie = cookie
+    },
+    methods: {
+      logout(){
+        VueCookies.remove('id')
+        this.$router.push('/map')
+      }
+    },
+  }
+</script>
 
 <style scoped>
   img{

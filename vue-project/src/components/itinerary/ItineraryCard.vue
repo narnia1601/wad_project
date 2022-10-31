@@ -1,54 +1,60 @@
-<script setup>
-    
-</script>
-
 <template>
-    <a href="/map" id="card-link">
+    <div id="card-link">
         <div id="card" class="card rounded rounded-4 shadow-sm">
-            <div :id="name" class="carousel slide" data-bs-ride="false">
-            <div class="carousel-indicators">
-                <button type="button" :data-bs-target="'#' + name" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" :data-bs-target="'#' + name" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" :data-bs-target="'#' + name" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="../../assets/africa.png" class="d-block w-100" alt="...">
+            <div :id="name" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div v-for="(image, idx) in imageArr" :class="idx == 0 ? 'carousel-item active' : 'carousel-item'" :key="image.id">
+                        <a :href="href">
+                            <img :src="'data:image/png;base64,' + imageArr[idx]" class="d-block w-100" alt="">
+                        </a>
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="../../assets/asia.png" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="../../assets/australia.png" class="d-block w-100" alt="...">
+                <button class="carousel-control-prev" type="button" :data-bs-target="'#' + name" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" :data-bs-target="'#' + name" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" :data-bs-target="'#' + name" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" :data-bs-target="'#' + name" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-            </div>
-        </div>
         <div class="mt-2">
-            <div class="d-flex justify-content-between">
-                <h5>Singapore</h5>
-                <div>
-                    <img id="star" class="me-1" src='../../assets/star.png'/>
-                    <span>4.89 / 5</span>
-                    <img id="heart" class="ms-2" src="../../assets/heart.png">
+            <div class="row" id="card-info">
+                <h5 class="col-lg-7 col-md-12 text-lg-start">
+                    <a :href="href" style="text-decoration: none">{{ title }}</a>
+                </h5>
+                <div class="col-lg-5 col-md-12 text-lg-end">
+                    <img id="heart" @click='toggleFavouritesArr(data._id)' v-if="favouritesArr == null || !favouritesArr.includes(data._id)" class="ms-2" src="../../assets/heart.png">
+                    <img id="heart" @click='toggleFavouritesArr(data._id)' v-else class="ms-2" src="../../assets/heart2.png">
                 </div>
             </div>
-            <p class="text-muted">5 locations</p>
+            <p class="text-muted" v-if="this.locations == 1">{{ locations }} location</p>
+            <p class="text-muted" v-else>{{ locations }} locations</p>
         </div>
-    </a>
+    </div>
 </template>
 
 <script>
+    import VueCookies from 'vue-cookies'
     export default{
-        props: ['name'],
+        props: ['name', 'data', 'favouritesArr', 'toggleFavouritesArr', 'imageArr', 'link'],
+        data() {
+            return {
+                href: '/itinerary/' + this.link,
+                title: this.data.title,
+                locations: 0,
+                averageLat: 0.0,
+                averageLng: 0.0,
+            }
+        },
+        mounted(){
+            this.data.attractions.map(attraction => {
+                attraction.map(data => {
+                    this.locations += 1
+                })
+            })
+        },
     }
 </script>
 

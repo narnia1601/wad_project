@@ -1,5 +1,8 @@
 <script setup>
   import About from './About.vue'
+  import Login from './Login.vue'
+  import Register from './Register.vue'
+  import ForgetPassword from './ForgetPassword.vue'
 </script>
 
 <template>
@@ -13,26 +16,9 @@
           </div>
           <div class="col px-4">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Login</h5>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email address</label>
-                  <input type="email" id="email" class="form-control">
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" id="password" class="form-control">
-                  <div class="form-text text-end">
-                    <a href="#" class="text-secondary">Forgot password?</a>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <button class="btn btn-primary" id="login">Login</button>
-                </div>
-                <div class="form-text text-center">
-                    <p>Don't have an account? <a href="">Sign Up</a></p>
-                </div>
-              </div>
+              <Login v-if="isLogin && isForgetPassword == false" :toggleLoginOrRegister="toggleLoginOrRegister" :toggleForgetPassword="toggleForgetPassword"></Login>
+              <ForgetPassword v-if="isForgetPassword == true" :toggleLoginOrRegister="toggleLoginOrRegister"></ForgetPassword>
+              <Register v-if="isLogin == false && isForgetPassword == false" :toggleLoginOrRegister="toggleLoginOrRegister" :toggleForgetPassword="toggleForgetPassword"></Register>
             </div>
           </div>
         </div>
@@ -43,6 +29,7 @@
 </template>
 
 <script>
+  import VueCookies from 'vue-cookies'
   export default {
     data: () => {
       return {
@@ -53,10 +40,16 @@
         erasingSpeed: 100,
         newTextDelay: 500,
         typeArrayIndex: 0,
-        charIndex: 0
+        charIndex: 0,
+        isLogin: false,
+        isForgetPassword: false
       }
     },
     created(){
+      const cookie = VueCookies.get('id')
+      if(cookie != null){
+          this.$router.push('/dashboard')
+      }
       setTimeout(this.typeText, this.newTextDelay + 200)
     },
     methods: {
@@ -93,6 +86,15 @@
           this.typeArrayIndex = 0
         }
       },
+      toggleLoginOrRegister(){
+        this.isLogin = !this.isLogin
+        if(this.isForgetPassword == true){
+          this.isForgetPassword = false
+        }
+      },
+      toggleForgetPassword(){
+        this.isForgetPassword = true
+      }
     }
   }
 </script>
@@ -106,9 +108,6 @@
     }
     a{
       text-decoration: none;
-    }
-    #login{
-      width: 100%
     }
     .typed-text{
       color: white;

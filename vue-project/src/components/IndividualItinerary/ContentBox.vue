@@ -1,5 +1,4 @@
 <template>
-
     <!-- Content Box -->
     <div class="container mt-3 border rounded-4">
     
@@ -13,16 +12,10 @@
                 </div>
     
                 <div class="col-7">
-                    <h5 class="text-center">1. Pizzomunno</h5>
+                    <h5 class="text-center">{{ data.location }}</h5>
                 </div>
-    
-                <!-- Save button -->
-                <div class="col-3 d-flex justify-content-end pe-0">
-                    <button class="btn save-btn">
-                        <svg class="save-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M336 0h-288C21.49 0 0 21.49 0 48v431.9c0 24.7 26.79 40.08 48.12 27.64L192 423.6l143.9 83.93C357.2 519.1 384 504.6 384 479.9V48C384 21.49 362.5 0 336 0zM336 452L192 368l-144 84V54C48 50.63 50.63 48 53.1 48h276C333.4 48 336 50.63 336 54V452z"/></svg>
-                        Save
-                    </button>
-                </div>
+
+                <div class="col-3"></div>
             </div>
         </div>
     
@@ -30,12 +23,12 @@
         <div class="row">
             <!--Left side of Content Box -->
             <div class="col-8">
-                <p>The “Pizzomunno” is a large white rock monolith over 25mt tall, located at beginning of the Scialara Beach, the first beach south of the center of Vieste. Find a spot on one of the beach's free spaces or rent a sun lounge and umbrella at any of the private beach clubs known as lidos.</p>
+                <p>{{ data.description }}</p>
             </div>
     
             <!-- Image -->
             <div class="col-4 ps-0">
-                <img src="../../assets/individualitinerary-pic1.jpg" class="d-block w-100 " alt="itinerary-picture">
+                <img :src="'data:image/png;base64,' + data.image" class="d-block w-100 " alt="itinerary-picture">
             </div>
         </div>
     
@@ -43,23 +36,20 @@
         <div class="mb-2 d-flex">
             <!-- Tags -->
             <div class="col-10">
-                <span class="badge bg-yellow text-dark me-2 p-2">Beach</span>
-                <span class="badge bg-yellow text-dark me-2 p-2">Rocky Mountains</span>
-                <span class="badge bg-yellow text-dark me-2 p-2">Sunbathing</span>
-                <span class="">...</span>
+                <span class="badge bg-yellow text-dark me-2 p-2">{{ data.venue }}</span>
             </div>
         </div>
     </div>
     
-    </template>
+</template>
     
-    <script>
-    export default {
-        name: "ContentBox",
+<script>
+    export default{
+        props: ['data'],
     }
-    </script>
-    
-    <style scoped>
+</script>
+
+<style scoped>
     .location-icon {
         width: 22px;
         fill: #FCE499;
@@ -71,4 +61,4 @@
     .save-icon {
         width: 14px;
     }
-    </style>
+</style>
