@@ -17,13 +17,17 @@
         </div>
         <div class="mt-3 mb-3">
             <div v-for="rowIdx in Math.ceil(itineraryDaysArr.length / 7)" :key="rowIdx.id">
+                <div>
+                    <h5>Week {{ rowIdx }}</h5>
+                </div>
+
                 <span v-for="idx in itineraryDaysArr.slice(7 * (rowIdx - 1), 7 * rowIdx)" :key="idx.id" @click="selectDay(idx)">
                     <button v-if="selectedDay == idx" class="btn btn-info me-2 mb-2">Day {{ idx }}</button>
                     <button v-else class="btn btn-outline-info me-2 mb-2">Day {{ idx }}</button>
                 </span>
-                <span>
+                <!-- <span>
                     <h5 style="display: inline;">Week {{ rowIdx }}</h5>
-                </span>
+                </span> -->
                 <hr>
             </div>
         </div>
@@ -107,12 +111,24 @@
                 this.newAttraction = true
             },
             changeItineraryDays(newDays){
-                if(newDays < this.itineraryArr.length){
-                    this.itineraryArr.pop()
-                    this.itineraryDaysArr.pop()
-                }else if(newDays > this.itineraryArr.length){
-                    this.itineraryArr.push([])
-                    this.itineraryDaysArr.push(newDays)
+                if (newDays < this.itineraryArr.length){
+                    // this.itineraryArr.pop()
+                    // this.itineraryDaysArr.pop()
+
+                    let daysDifference = this.itineraryArr.length - newDays
+                    this.itineraryArr.splice(newDays, daysDifference)
+                    this.itineraryDaysArr.splice(newDays, daysDifference)
+                }
+                else if (newDays > this.itineraryArr.length){
+                    // this.itineraryArr.push([])
+                    // this.itineraryDaysArr.push(newDays)
+
+                    let currentItineraryArrLength = this.itineraryArr.length
+
+                    for (let i=currentItineraryArrLength+1; i<=newDays; i++) {
+                        this.itineraryArr.push([])
+                        this.itineraryDaysArr.push(i)
+                    }
                 }
             },
             selectFile(e){

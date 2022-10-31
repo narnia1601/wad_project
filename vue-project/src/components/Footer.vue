@@ -12,11 +12,9 @@
 
         <!-- Links -->
         <div class="d-flex justify-content-center m-2">
-            <router-link to="#" class="px-2 text-dark text-decoration-none">Home</router-link>
+            <router-link to="/dashboard" class="px-2 text-dark text-decoration-none">Home</router-link>
             |
-            <router-link to="#" class="px-2 text-dark text-decoration-none">Community</router-link>
-            |
-            <router-link to="#" class="px-2 text-dark text-decoration-none">About</router-link>
+            <router-link to="/new" class="px-2 text-dark text-decoration-none">Create Itinerary</router-link>
         </div>
     </div>
 
