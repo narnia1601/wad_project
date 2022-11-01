@@ -6,10 +6,10 @@ import Dashboard from '../components/dashboard/Dashboard.vue'
 import CreateItinerary from '../components/createItinerary/CreateItinerary.vue'
 
 const routes = [
-    // {
-    //     path: '/',
-    //     component: Home
-    // },
+    {
+        path: '/',
+        component: Home
+    },
     {
         path: '/itinerary/:id',
         component: Itinerary
