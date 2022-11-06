@@ -13,13 +13,18 @@
         <!-- Days scroll bar -->
         <div class="container mt-3">
             <div v-for="rowIdx in Math.ceil(itineraryDaysArr.length / 7)" :key="rowIdx.id">
+
+                <div>
+                    <h5>Week {{ rowIdx }}</h5>
+                </div>
+
                 <span v-for="idx in itineraryDaysArr.slice(7 * (rowIdx - 1), 7 * rowIdx)" :key="idx.id" @click="selectDay(idx - 1)">
                     <button v-if="selectedDay == idx - 1" class="btn btn-info me-2 mb-2">Day {{ idx }}</button>
                     <button v-else class="btn btn-outline-info me-2 mb-2">Day {{ idx }}</button>
                 </span>
-                <span>
+                <!-- <span>
                     <h5 style="display: inline;">Week {{ rowIdx }}</h5>
-                </span>
+                </span> -->
                 <hr v-if="rowIdx > 1">
             </div>
         </div>
@@ -45,7 +50,8 @@
 
                 <!-- Map col -->
                 <div class="col-5 mt-3">
-                    <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" />
+                    <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
+                    <!-- <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" /> -->
                 </div>
             </div>
         </div>
@@ -165,10 +171,10 @@ hr {
     position: sticky;
     top: 0;
 }
-#content{
+/* #content{
     max-height: 70vh;
     overflow: scroll;
-}
+} */
 .active{
     transform: translate(-10px, -10px);
     box-shadow: 10px 10px rgba(0, 0, 0, 0.7);

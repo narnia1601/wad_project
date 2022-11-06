@@ -19,6 +19,7 @@
                 </button>
                 </div>
             </div>
+            
         <div class="mt-2">
             <div class="row" id="card-info">
                 <h5 class="col-lg-7 col-md-12 text-lg-start">

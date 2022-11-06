@@ -9,6 +9,12 @@
     <ItinerarySearch :searchCity="searchCity"></ItinerarySearch>
     <div class="mt-4">
       <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
+              <ItineraryCard :imageArr="imageArr[idx]" :link="itinerary.title" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
+          </div>
+      </div>
+
+      <!-- <div class="row">
           <div class="col-8">
               <div class="row">
                   <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
@@ -19,7 +25,7 @@
           <div class="col-4">
               <FavouriteItinerary :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :itineraries="itineraryArr"></FavouriteItinerary>
           </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -48,6 +54,8 @@
           var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
           axios.get(url)
           .then(res => {
+            console.log(res)
+
               this.itineraryArr = res.data
               this.getImages(this.itineraryArr)
           })
