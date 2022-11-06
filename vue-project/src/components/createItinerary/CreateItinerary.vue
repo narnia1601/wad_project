@@ -1,6 +1,13 @@
 <template>
     <div class="container">
+        <!-- For successful submission of itinerary -->
         <div class="alert alert-success mt-3" v-if="itinerarySubmitted">Itinerary Created!</div>
+
+        <!-- For error msg -->
+        <div v-if="errorMsg !== ''" class="alert alert-warning mt-3">
+            {{errorMsg}}
+        </div>
+
         <div class="row">
             <div class="col-8">
                 <div class="mt-3">
@@ -36,7 +43,8 @@
                 <div v-if="newAttraction">
                     <div class="mt-3">
                         <label for="location" class="form-label">Location</label>
-                        <input type="text" id="location" v-model="location" class="form-control">
+                        <input @change="locationShowUserFunc" type="text" id="location" v-model="location" class="form-control">
+                        <div v-if="locationShowUser !== ''" class="form-text">Do you mean: {{locationShowUser}}?</div>
                     </div>
                     <div class="mt-3">
                         <label for="description" class="form-label">Description</label>
@@ -91,7 +99,9 @@
                 description: '',
                 image: '',
                 isIndoor: true,
-                itinerarySubmitted: false
+                itinerarySubmitted: false,
+                errorMsg: '',
+                locationShowUser: '',
             }
         },
         mounted() {
@@ -140,60 +150,140 @@
                 }
             },
             submitAttraction(){
-                var lat = 0
-                var lng = 0
-                var venue = this.isIndoor ? 'indoors' : 'outdoors'
-                var url = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
-                axios.get(url)
-                .then(res => {
-                    lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
-                    lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
-                })
-                .then(res => {
-                    var idx = this.selectedDay - 1
-                    this.itineraryArr[idx].push({
-                        location: this.location,
-                        description: this.description,
-                        image: this.image,
-                        lat: lat,
-                        lng: lng,
-                        venue: venue
+
+                // error handling, ensuring data is all filled
+                if (this.itineraryName === '') {
+                    this.errorMsg = "Please fill in the itinerary name."
+                    this.scrollFunction()
+                }
+
+                else if (this.description === '') {
+                    this.errorMsg = "Please fill in a description of the attraction."
+                    this.scrollFunction()
+                }
+
+                else if (this.image === '') {
+                    this.errorMsg = "Please add at least 1 image of the attraction."
+                    this.scrollFunction()
+                }
+
+                // get location
+                else {
+                    var lat = 0
+                    var lng = 0
+                    var venue = this.isIndoor ? 'indoors' : 'outdoors'
+                    var url = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
+                    axios.get(url)
+                    .then(res => {
+                        console.log(res)
+    
+                        lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
+                        lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
                     })
-                    this.newAttraction = false
-                    this.isIndoor = true
-                    this.location = ''
-                    this.description = ''
-                    document.getElementById('image').value = ''
-                })
+                    .then(res => {
+    
+                        console.log(res)
+
+                        // clear error msg
+                        this.errorMsg = ""
+
+                        // clear previous location
+                        this.locationShowUser = ""
+    
+                        var idx = this.selectedDay - 1
+    
+                        console.log(this.selectedDay)
+                        console.log(idx)
+    
+                        this.itineraryArr[idx].push({
+                            location: this.location,
+                            description: this.description,
+                            image: this.image,
+                            lat: lat,
+                            lng: lng,
+                            venue: venue
+                        })
+                        this.newAttraction = false
+                        this.isIndoor = true
+                        this.location = ''
+                        this.description = ''
+                        document.getElementById('image').value = ''
+                    })
+                    .catch(error => {
+                        this.locationShowUser = ""
+                        this.errorMsg = "No location found."
+                        this.scrollFunction()
+                    })
+
+                }
             },
             submitItinerary(){
                 var itineraryArrFinal = []
-                this.itineraryArr.map(dayItinerary => {
-                    if(dayItinerary.length > 0){
+                let whetherAnyDaysNoAttraction = false
+
+                this.itineraryArr.map((dayItinerary, index) => {
+                    if(dayItinerary.length == 0){
+                        whetherAnyDaysNoAttraction = true
+                        this.errorMsg = `Day ${index + 1} has no attractions added.`
+                        this.scrollFunction()
+                    } 
+                    else {
                         itineraryArrFinal.push(dayItinerary)
                     }
+                    // if(dayItinerary.length > 0){
+                    //     itineraryArrFinal.push(dayItinerary)
+                    // }
                 })
-                var days = itineraryArrFinal.length
-                let body = { 
-                    'title': this.itineraryName,
-                    'days': days,
-                    "files": itineraryArrFinal
+
+                if (!whetherAnyDaysNoAttraction) {
+                    var days = itineraryArrFinal.length
+                    let body = { 
+                        'title': this.itineraryName,
+                        'days': days,
+                        "files": itineraryArrFinal
+                    }
+                    var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/upload'
+                    axios.post(url, {
+                        body: body,
+                    })
+                    .then(res => {
+                        console.log(res)
+                        this.selectedDay = 1
+                        this.itineraryDays = 1
+                        this.itineraryDaysArr = [1]
+                        this.itinerarySubmitted = true
+                        this.newAttraction = false
+                        this.itineraryName = ''
+                        this.itineraryArr = [[]]
+                        setTimeout(() => {
+                            this.itinerarySubmitted = false
+                        }, 5000);
+                    })
                 }
-                var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/upload'
-                axios.post(url, {
-                    body: body,
-                })
-                .then(res => {
-                    console.log(res)
-                    this.itinerarySubmitted = true
-                    this.newAttraction = false
-                    this.itineraryName = ''
-                    this.itineraryArr = [[]]
-                    setTimeout(() => {
-                        this.itinerarySubmitted = false
-                    }, 3000);
-                })
-            }
+            },
+            scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            },
+            locationShowUserFunc() {
+                let url2 = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
+                    axios.get(url2)
+                    .then(res => {
+                        console.log(res)
+
+                        // clear error msg
+                        this.errorMsg = ""
+
+                        this.locationShowUser = res.data[0].display_name
+                    })
+                    .catch(error => {
+                        this.locationShowUser = ""
+                        this.errorMsg = "No location found."
+                        this.scrollFunction()
+                    })
+            },
         },
     }
 </script>
