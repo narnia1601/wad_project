@@ -19,8 +19,8 @@
                 </div>
 
                 <span v-for="idx in itineraryDaysArr.slice(7 * (rowIdx - 1), 7 * rowIdx)" :key="idx.id" @click="selectDay(idx - 1)">
-                    <button v-if="selectedDay == idx - 1" class="btn btn-info me-2 mb-2">Day {{ idx }}</button>
-                    <button v-else class="btn btn-outline-info me-2 mb-2">Day {{ idx }}</button>
+                    <button v-if="selectedDay == idx - 1" class="btn btn-primary me-2 mb-2">Day {{ idx }}</button>
+                    <button v-else class="btn btn-outline-primary me-2 mb-2">Day {{ idx }}</button>
                 </span>
                 <!-- <span>
                     <h5 style="display: inline;">Week {{ rowIdx }}</h5>

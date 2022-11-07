@@ -49,7 +49,7 @@
                             this.error = 'Incorrect email or password'
                         }else{
                             VueCookies.set('id', res.data)
-                            this.$router.push('/dashboard')
+                            this.$router.push('/home')
                         }
                         console.log('It works')
                     })

@@ -21,7 +21,11 @@ const routes = [
     {
         path: '/new',
         component: CreateItinerary
-    }
+    },
+    {
+        path: '/home',
+        component: Itineraries
+    },
 ]
 
 const router = createRouter({
