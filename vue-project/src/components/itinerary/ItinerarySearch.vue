@@ -8,7 +8,7 @@
             <div class="col-1"></div>
             <div class="col">
                 <div class="input-group mb-3 col-6" id="searchBar">
-                    <input type="text" class="form-control" placeholder="Enter a city" v-model="city" aria-label="city" aria-describedby="city">
+                    <input type="text" class="form-control" placeholder="Search a city's weather" v-model="city" aria-label="city" aria-describedby="city">
                     <span class="input-group-text btn btn-primary" @click="submitCity" id="city">Search</span>
                 </div>
             </div>

@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="mt-3">
+  <div class="container-fluid mt-3">
     <ItinerarySearch :searchCity="searchCity"></ItinerarySearch>
     <div class="mt-4">
       <div class="row">

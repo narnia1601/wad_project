@@ -8,10 +8,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <router-link to="/dashboard" class="nav-link">Home</router-link>
+            <router-link to="/home" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
             <a href="/new" class="nav-link">Create Itinerary</a>
+          </li>
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
           </li>
           <li class="nav-item">
             <a href="/" v-if="cookie != null" @click='logout' class="nav-link">Logout</a>
