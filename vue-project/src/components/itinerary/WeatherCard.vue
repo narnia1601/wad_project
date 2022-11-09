@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <h3 class="mt-3 text-center">Weather</h3>
         <div class="col" v-for="(weatherData, idx) in weatherDataArray" :key="idx">
             <div class="text-center p-4 icon">
                 <p>{{ weatherData.tempInCelsius }}&#x2103;</p>

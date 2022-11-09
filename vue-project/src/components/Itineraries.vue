@@ -2,14 +2,54 @@
   import ItinerarySearch from './itinerary/ItinerarySearch.vue'
   import ItineraryCard from './itinerary/ItineraryCard.vue'
   import FavouriteItinerary from './itinerary/FavouriteItinerary.vue'
+  import WeatherCard from './itinerary/WeatherCard.vue'
 </script>
 
 <template>
   <div class="container-fluid mt-3">
-    <ItinerarySearch :searchCity="searchCity"></ItinerarySearch>
+    <!-- <ItinerarySearch :searchCity="searchCity"></ItinerarySearch> -->
+
+    <!-- Search by country search bar -->
+    <div>
+      <div class="row">
+            <div class="col-1"></div>
+            <div class="col">
+                <div class="input-group mb-3 col-6" id="searchCountryBar">
+                    <input type="text" class="form-control" placeholder="Search for a country" v-model="searchedCountry" aria-label="country" aria-describedby="country">
+                    <span class="input-group-text btn btn-primary" @click="searchCountry" id="country">Search</span>
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+
+    <!-- For error msg -->
+    <div v-if="errorMsg !== ''" class="row">
+      <div class="alert alert-danger text-center" role="alert">
+        {{errorMsg}}
+      </div>
+    </div>
+
+    <!-- Display weather data -->
+    <div class="row">
+      <div class="card" v-if="weatherDataArray.length > 0">
+          <WeatherCard :weatherDataArray="weatherDataArray"></WeatherCard>
+      </div>
+    </div>
+
     <div class="mt-4">
       <div class="row">
-          <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
+          <div v-if="itineraryArr.length == 0" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <div v-else-if="whetherSearchedCountry" class="col-lg-4 col-md-6 mb-4" :key="searchedIdx" v-for="(searchedItinerary, searchedIdx) in searchedCountryItineraryArr">
+            <ItineraryCard :imageArr="imageArr[searchedIdx]" :link="searchedItinerary.title" :name="'carouselCaptions' + searchedIdx" :data="searchedItinerary"></ItineraryCard>
+          </div>
+
+          <div v-else class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
               <ItineraryCard :imageArr="imageArr[idx]" :link="itinerary.title" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
           </div>
       </div>
@@ -42,7 +82,13 @@
             lng: 0.0,
             hasSearched: false,
             weather: '',
-            imageArr: []
+            imageArr: [],
+            searchedCountry: '',
+            whetherSearchedCountry: false,
+            searchedCountryItineraryArr: [],
+            errorMsg: '',
+            weatherDataArray: [],
+            weatherCondition: ''
         }
     },
     mounted() {
@@ -51,7 +97,8 @@
     },
     methods: {
         getItineraries(){
-          var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
+          // var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
+          var url = 'http://localhost:8080/itineraries/'
           axios.get(url)
           .then(res => {
             console.log(res)
@@ -78,7 +125,8 @@
           if(city == ''){
             this.getItineraries()
           }else if(this.hasSearched){
-            var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
+            // var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
+            var url = 'http://localhost:8080/itineraries/'
             axios.get(url)
             .then(res => {
               this.itineraryArr = res.data
@@ -181,11 +229,96 @@
                     this.favouritesArr = JSON.parse(VueCookies.get('favourites'))
                 }
             }
-        }
+        },
+        searchCountry() {
+
+          this.getCountryWeather()
+
+          this.whetherSearchedCountry = true
+
+          // input: this.searchedCountry
+          let newItineraryArr = []
+
+          for (let i=0; i<this.itineraryArr.length; i++) {
+
+            let itinerary = this.itineraryArr[i]
+            let itineraryCountry = itinerary.country
+
+            if (itineraryCountry == this.searchedCountry) {
+              newItineraryArr.push(itinerary)
+            }
+          }
+
+          if (newItineraryArr.length == 0) {
+            this.errorMsg = `Sorry! No itineraries from ${this.searchedCountry} found.`
+          }
+          else {
+            this.errorMsg = ""
+          }
+
+          console.log(newItineraryArr)
+          this.searchedCountryItineraryArr = newItineraryArr
+          console.log(this.searchedCountryItineraryArr)
+
+          // console.log(this.itineraryArr)
+
+          // this.searchedCountryItineraryArr = this.itineraryArr.filter((itinerary) => {
+          //   let itineraryCountry = itinerary.country
+          //   return itineraryCountry == this.searchedCountry
+          // })
+
+          console.log(this.searchedCountryItineraryArr)
+          console.log(this.searchedCountryItineraryArr[0].country)
+
+        },
+        getCountryWeather(){
+          console.log(this.searchedCountry)
+          if(this.searchedCountry != ''){
+              var previousDate = 0
+              var url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + this.searchedCountry + '&appid=22ddbd5e8bfd7ce3ae8f86037aa1b962'
+              this.weatherDataArray = []
+              axios.get(url)
+              .then(res => {
+                  console.log(res.data)
+                  for(let i=0;i<res.data.list.length;i++){
+                      var date = new Date(res.data.list[i].dt_txt.split(' ')[0])
+                      if(date.getDate() > previousDate){
+                          var weatherCondition = res.data.list[i].weather[0].description
+                          var weatherIcon = res.data.list[i].weather[0].icon.substring(0,2)
+                          var weatherIconUrl = 'http://openweathermap.org/img/wn/' + weatherIcon + 'd' + '@2x.png'
+                          var temp = res.data.list[i].main.temp
+                          var tempInCelsius = parseInt(temp - 273.15)
+                          var weatherDataObj = {
+                              date: date,
+                              weatherCondition: weatherCondition,
+                              tempInCelsius: tempInCelsius,
+                              weatherIconUrl: weatherIconUrl
+                          }
+                          this.weatherDataArray.push(weatherDataObj)
+                          previousDate = date.getDate()
+                      }
+                  }
+                  this.weatherCondition = this.weatherDataArray[0].weatherCondition
+              })
+          }
+          // else{
+          //     this.weatherDataArray = []
+          //     this.weatherCondition = ''
+          //     this.searchCity(0, 0, this.searchCity, this.weatherCondition)
+          // }
+          }
     },
   }
 </script>
 
 <style scoped>
-  
+    #searchCountryBar input{
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        padding-left: 10px;
+    }
+    #searchCountryBar span{
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
 </style>
