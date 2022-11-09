@@ -1,8 +1,11 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-        <div class="col-6" id="img"></div>
-        <div class="col-6 pt-4 px-4 d-flex align-items-center" id="about-background">
+      <!-- image -->
+        <div class="col col-xs-12 col-lg-6" id="img"></div>
+
+      <!-- text -->
+        <div class="col-xs-12 col-lg-6 pt-4 px-4 d-flex align-items-center" id="about-background">
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col text-center" id="about">
@@ -12,7 +15,16 @@
                 <div class="col-2"></div>
             </div>
         </div>
+
     </div>
+    
+    <!-- <div class="row">
+      <div class="row plane"><img class="w-25 mx-auto" src="../assets/logo.png"></div>
+      <h2 class="text-center">Save time planning, Spend time enjoying with GaiGai!</h2>
+
+
+
+    </div> -->
   </div>
 </template>
 
