@@ -1,10 +1,3 @@
-<script setup>
-    import IndividualItineraryHeader from './IndividualItineraryHeader.vue'
-    import ContentBox from './ContentBox.vue'
-    import Map from '../itinerary/Map.vue'
-    import Comment from './Comment.vue'
-</script>
-
 <template>
     
     <div class="container-fluid p-0">
@@ -70,9 +63,19 @@
 </template>
 
 <script>
+    import IndividualItineraryHeader from './IndividualItineraryHeader.vue'
+    import ContentBox from './ContentBox.vue'
+    import Map from '../itinerary/Map.vue'
+    import Comment from './Comment.vue'
     import axios from 'axios'
     import VueCookies from 'vue-cookies'
     export default {
+        components: {
+            IndividualItineraryHeader,
+            ContentBox,
+            Map,
+            Comment
+        },
         mounted() {
             this.index = this.$route.fullPath.split('/')[2]
             var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'

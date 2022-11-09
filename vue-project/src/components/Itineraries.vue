@@ -1,10 +1,3 @@
-<script setup>
-  import ItinerarySearch from './itinerary/ItinerarySearch.vue'
-  import ItineraryCard from './itinerary/ItineraryCard.vue'
-  import FavouriteItinerary from './itinerary/FavouriteItinerary.vue'
-  import WeatherCard from './itinerary/WeatherCard.vue'
-</script>
-
 <template>
   <div class="container-fluid mt-3">
     <!-- <ItinerarySearch :searchCity="searchCity"></ItinerarySearch> -->
@@ -71,9 +64,19 @@
 </template>
 
 <script>
+  import ItinerarySearch from './itinerary/ItinerarySearch.vue'
+  import ItineraryCard from './itinerary/ItineraryCard.vue'
+  import FavouriteItinerary from './itinerary/FavouriteItinerary.vue'
+  import WeatherCard from './itinerary/WeatherCard.vue'
   import axios from 'axios'
   import VueCookies from 'vue-cookies'
   export default{
+    components: {
+      ItinerarySearch,
+      ItineraryCard,
+      FavouriteItinerary,
+      WeatherCard
+    },
     data(){
         return {
             itineraryArr: [],
@@ -101,8 +104,6 @@
           var url = 'http://localhost:8080/itineraries/'
           axios.get(url)
           .then(res => {
-            console.log(res)
-
               this.itineraryArr = res.data
               this.getImages(this.itineraryArr)
           })
@@ -118,7 +119,6 @@
             })
             this.imageArr.push(imageArr)
           })
-          console.log(this.imageArr)
         },
         searchCity(lat, lng, city, weatherCondition){
           var outdoorArr = ['shower rain','rain','thunderstorm','snow','mist', 'overcast clouds', 'light rain', 'moderate rain']
@@ -246,6 +246,9 @@
 
             if (itineraryCountry == this.searchedCountry) {
               newItineraryArr.push(itinerary)
+              this.getImages(newItineraryArr)
+              console.log(this.imageArr)
+              console.log(newItineraryArr)
             }
           }
 
@@ -256,9 +259,7 @@
             this.errorMsg = ""
           }
 
-          console.log(newItineraryArr)
           this.searchedCountryItineraryArr = newItineraryArr
-          console.log(this.searchedCountryItineraryArr)
 
           // console.log(this.itineraryArr)
 
@@ -267,19 +268,14 @@
           //   return itineraryCountry == this.searchedCountry
           // })
 
-          console.log(this.searchedCountryItineraryArr)
-          console.log(this.searchedCountryItineraryArr[0].country)
-
         },
         getCountryWeather(){
-          console.log(this.searchedCountry)
           if(this.searchedCountry != ''){
               var previousDate = 0
               var url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + this.searchedCountry + '&appid=22ddbd5e8bfd7ce3ae8f86037aa1b962'
               this.weatherDataArray = []
               axios.get(url)
               .then(res => {
-                  console.log(res.data)
                   for(let i=0;i<res.data.list.length;i++){
                       var date = new Date(res.data.list[i].dt_txt.split(' ')[0])
                       if(date.getDate() > previousDate){
@@ -301,12 +297,7 @@
                   this.weatherCondition = this.weatherDataArray[0].weatherCondition
               })
           }
-          // else{
-          //     this.weatherDataArray = []
-          //     this.weatherCondition = ''
-          //     this.searchCity(0, 0, this.searchCity, this.weatherCondition)
-          // }
-          }
+        }
     },
   }
 </script>
