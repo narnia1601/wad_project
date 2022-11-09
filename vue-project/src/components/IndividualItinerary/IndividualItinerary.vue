@@ -6,52 +6,62 @@
 </script>
 
 <template>
+    
     <div class="container-fluid p-0">
-        <!-- Header -->
-        <IndividualItineraryHeader :mainHeader="title" :secondHeader="days != null ? (days + (days > 1 ? ' days' : ' day')) : ''" />
 
-        <!-- Days scroll bar -->
-        <div class="container mt-3">
-            <div v-for="rowIdx in Math.ceil(itineraryDaysArr.length / 7)" :key="rowIdx.id">
-
-                <div>
-                    <h5>Week {{ rowIdx }}</h5>
-                </div>
-
-                <span v-for="idx in itineraryDaysArr.slice(7 * (rowIdx - 1), 7 * rowIdx)" :key="idx.id" @click="selectDay(idx - 1)">
-                    <button v-if="selectedDay == idx - 1" class="btn btn-primary me-2 mb-2">Day {{ idx }}</button>
-                    <button v-else class="btn btn-outline-primary me-2 mb-2">Day {{ idx }}</button>
-                </span>
-                <!-- <span>
-                    <h5 style="display: inline;">Week {{ rowIdx }}</h5>
-                </span> -->
-                <hr v-if="rowIdx > 1">
+        <div v-if="itineraryArr.length == 0" class="mt-3 d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
 
-        <hr class="mt-2 mb-2">
-
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Content Boxes col -->
-                <div class="col-7 pe-0">
-                    <div id="content">
-                        <ContentBox :class="'content-' + data['location'] == selectedContent ? 'active' : ''" :id="'content-' + data['location']" v-for="data in itineraryArr[selectedDay]" :data="data" :key="data.id"></ContentBox>
+        <div v-else>
+            <!-- Header -->
+            <IndividualItineraryHeader :mainHeader="title" :secondHeader="days != null ? (days + (days > 1 ? ' days' : ' day')) : ''" />
+    
+            <!-- Days scroll bar -->
+            <div class="container mt-3">
+                <div v-for="rowIdx in Math.ceil(itineraryDaysArr.length / 7)" :key="rowIdx.id">
+    
+                    <div>
+                        <h5>Week {{ rowIdx }}</h5>
                     </div>
-                    <div class="container mt-3 pt-3 p-0">
-                        <div class="input-group">
-                            <input type="text" class="form-control" v-model="comment" placeholder="Post a comment">
-                            <button @click="submitComment" class="btn btn-primary">Post</button>
-                        </div>
-                        <div class="text-danger" v-if="error != ''">{{ error }}</div>
-                        <Comment class="mb-3 mt-3" v-for="comment in comments" :key="comment.id" :firstName="comment.firstName" :comment="comment.comment"></Comment>
-                    </div>
+    
+                    <span v-for="idx in itineraryDaysArr.slice(7 * (rowIdx - 1), 7 * rowIdx)" :key="idx.id" @click="selectDay(idx - 1)">
+                        <button v-if="selectedDay == idx - 1" class="btn btn-primary me-2 mb-2">Day {{ idx }}</button>
+                        <button v-else class="btn btn-outline-primary me-2 mb-2">Day {{ idx }}</button>
+                    </span>
+                    <!-- <span>
+                        <h5 style="display: inline;">Week {{ rowIdx }}</h5>
+                    </span> -->
+                    <hr v-if="rowIdx > 1">
                 </div>
-
-                <!-- Map col -->
-                <div class="col-5 mt-3">
-                    <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
-                    <!-- <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" /> -->
+            </div>
+    
+            <hr class="mt-2 mb-2">
+    
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Content Boxes col -->
+                    <div class="col-7 pe-0">
+                        <div id="content">
+                            <ContentBox :class="'content-' + data['location'] == selectedContent ? 'active' : ''" :id="'content-' + data['location']" v-for="data in itineraryArr[selectedDay]" :data="data" :key="data.id"></ContentBox>
+                        </div>
+                        <div class="container mt-3 pt-3 p-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" v-model="comment" placeholder="Post a comment">
+                                <button @click="submitComment" class="btn btn-primary">Post</button>
+                            </div>
+                            <div class="text-danger" v-if="error != ''">{{ error }}</div>
+                            <Comment class="mb-3 mt-3" v-for="comment in comments" :key="comment.id" :firstName="comment.firstName" :comment="comment.comment"></Comment>
+                        </div>
+                    </div>
+    
+                    <!-- Map col -->
+                    <div class="col-5 mt-3">
+                        <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
+                        <!-- <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" /> -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,6 +78,7 @@
             var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
             axios.get(url)
             .then(res => {
+                console.log(res.data)
                 res.data.map(itineraries => {
                     var titleString = ''
                     var titleArr = itineraries.title.split(' ')

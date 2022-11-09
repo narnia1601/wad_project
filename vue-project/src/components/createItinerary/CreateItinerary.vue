@@ -122,6 +122,7 @@
                 itinerarySubmitted: false,
                 errorMsg: '',
                 locationShowUser: '',
+                country: '',
             }
         },
         mounted() {
@@ -193,12 +194,20 @@
                     var lng = 0
                     var venue = this.isIndoor ? 'indoors' : 'outdoors'
                     var url = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
+                    var country = ''
                     axios.get(url)
                     .then(res => {
                         console.log(res)
     
                         lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
                         lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
+
+                        // get country of location
+                        let locationName = res.data[0].display_name
+                        let locationNameParts = locationName.split(", ")
+                        let country = locationNameParts[locationNameParts.length - 1]
+                        this.country = country
+                        // console.log(country)
                     })
                     .then(res => {
     
@@ -221,7 +230,7 @@
                             image: this.image,
                             lat: lat,
                             lng: lng,
-                            venue: venue
+                            venue: venue,
                         })
                         this.newAttraction = false
                         this.isIndoor = true
@@ -259,10 +268,13 @@
                     var days = itineraryArrFinal.length
                     let body = { 
                         'title': this.itineraryName,
+                        'country': this.country,
                         'days': days,
                         "files": itineraryArrFinal
                     }
-                    var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/upload'
+                    console.log(body)
+                    // var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/upload'
+                    var url = 'http://localhost:8080/upload'
                     axios.post(url, {
                         body: body,
                     })
@@ -297,6 +309,13 @@
                         this.errorMsg = ""
 
                         this.locationShowUser = res.data[0].display_name
+
+                        // get country of location
+                        let locationName = res.data[0].display_name
+                        let locationNameParts = locationName.split(", ")
+                        let country = locationNameParts[locationNameParts.length - 1]
+
+                        console.log(country)
                     })
                     .catch(error => {
                         this.locationShowUser = ""

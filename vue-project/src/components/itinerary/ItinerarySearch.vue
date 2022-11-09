@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-1"></div>
             <div class="col">
                 <div class="input-group mb-3 col-6" id="searchBar">
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="col-1"></div>
-        </div>
+        </div> -->
         <div>
             <div class="card" v-if="weatherDataArray.length > 0">
                 <WeatherCard :weatherDataArray="weatherDataArray"></WeatherCard>
@@ -35,12 +35,14 @@
         },
         methods: {
             submitCity(){
-                if(this.city != ''){
+                console.log(searchCity)
+                if(this.searchCity != ''){
                     var previousDate = 0
-                    var url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + this.city + '&appid=22ddbd5e8bfd7ce3ae8f86037aa1b962'
+                    var url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + this.searchCity + '&appid=22ddbd5e8bfd7ce3ae8f86037aa1b962'
                     this.weatherDataArray = []
                     axios.get(url)
                     .then(res => {
+                        console.log(res.data)
                         for(let i=0;i<res.data.list.length;i++){
                             var date = new Date(res.data.list[i].dt_txt.split(' ')[0])
                             if(date.getDate() > previousDate){
@@ -61,19 +63,19 @@
                         }
                         this.weatherCondition = this.weatherDataArray[0].weatherCondition
                     })
-                    .then(res => {
-                        var url = 'https://nominatim.openstreetmap.org/search?q=' + this.city + '&format=json'
-                        axios.get(url)
-                        .then(res => {
-                            var lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
-                            var lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
-                            this.searchCity(lat, lng, this.city, this.weatherCondition)
-                        })
-                    })
+                    // .then(res => {
+                    //     var url = 'https://nominatim.openstreetmap.org/search?q=' + this.city + '&format=json'
+                    //     axios.get(url)
+                    //     .then(res => {
+                    //         var lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
+                    //         var lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
+                    //         this.searchCity(lat, lng, this.city, this.weatherCondition)
+                    //     })
+                    // })
                 }else{
                     this.weatherDataArray = []
                     this.weatherCondition = ''
-                    this.searchCity(0, 0, this.city, this.weatherCondition)
+                    this.searchCity(0, 0, this.searchCity, this.weatherCondition)
                 }
             }
         },
