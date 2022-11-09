@@ -1,8 +1,5 @@
 <template>
   <div class="container-fluid mt-3">
-    <!-- <ItinerarySearch :searchCity="searchCity"></ItinerarySearch> -->
-
-    <!-- Search by country search bar -->
     <div>
       <div class="row">
             <div class="col-1"></div>
@@ -37,34 +34,29 @@
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-
-          <div v-else-if="whetherSearchedCountry" class="col-lg-4 col-md-6 mb-4" :key="searchedIdx" v-for="(searchedItinerary, searchedIdx) in searchedCountryItineraryArr">
-            <ItineraryCard :imageArr="imageArr[searchedIdx]" :link="searchedItinerary.title" :name="'carouselCaptions' + searchedIdx" :data="searchedItinerary"></ItineraryCard>
-          </div>
-
-          <div v-else class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
-              <ItineraryCard :imageArr="imageArr[idx]" :link="itinerary.title" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
-          </div>
-      </div>
-
-      <!-- <div class="row">
-          <div class="col-8">
-              <div class="row">
-                  <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
-                      <ItineraryCard :imageArr="imageArr[idx]" :link="itinerary.title" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
-                  </div>
+          <div v-else-if="whetherSearchedCountry" class="col-8">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 mb-4" :key="searchedIdx" v-for="(searchedItinerary, searchedIdx) in searchedCountryItineraryArr">
+                <ItineraryCard :toggleFavouritesArr="toggleFavouritesArr" :href="`/itinerary/${searchedItinerary.title}`" :favouritesArr="favouritesArr" :imageArr="imageArr[searchedIdx]" :name="'carouselCaptions' + searchedIdx" :data="searchedItinerary"></ItineraryCard>
               </div>
+            </div>
+          </div>
+          <div v-else class="col-8">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
+                <ItineraryCard :imageArr="imageArr[idx]" :href="`/itinerary/${itinerary.title}`" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
+              </div>
+            </div>
           </div>
           <div class="col-4">
               <FavouriteItinerary :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :itineraries="itineraryArr"></FavouriteItinerary>
           </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import ItinerarySearch from './itinerary/ItinerarySearch.vue'
   import ItineraryCard from './itinerary/ItineraryCard.vue'
   import FavouriteItinerary from './itinerary/FavouriteItinerary.vue'
   import WeatherCard from './itinerary/WeatherCard.vue'
@@ -72,7 +64,6 @@
   import VueCookies from 'vue-cookies'
   export default{
     components: {
-      ItinerarySearch,
       ItineraryCard,
       FavouriteItinerary,
       WeatherCard
@@ -100,9 +91,8 @@
     },
     methods: {
         getItineraries(){
-          // var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
-          var url = 'http://localhost:8080/itineraries/'
-          axios.get(url)
+          var url = this.$link + '/itineraries'
+          axios.post(url)
           .then(res => {
               this.itineraryArr = res.data
               this.getImages(this.itineraryArr)
@@ -119,86 +109,6 @@
             })
             this.imageArr.push(imageArr)
           })
-        },
-        searchCity(lat, lng, city, weatherCondition){
-          var outdoorArr = ['shower rain','rain','thunderstorm','snow','mist', 'overcast clouds', 'light rain', 'moderate rain']
-          if(city == ''){
-            this.getItineraries()
-          }else if(this.hasSearched){
-            // var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
-            var url = 'http://localhost:8080/itineraries/'
-            axios.get(url)
-            .then(res => {
-              this.itineraryArr = res.data
-              this.lat = lat
-              this.lng = lng
-              var newArr = []
-              this.itineraryArr.map(itinerary => {
-                itinerary.attractions.map((attraction, idx) => {
-                  var locations = 0
-                  var averageLat = 0.0
-                  var averageLng = 0.0
-                  var outDoorCounter = 0
-                  attraction.map(location => {
-                    locations += 1
-                    averageLat += location.lat
-                    averageLng += location.lng
-                    if(location.venue == 'outdoors' && idx == 0){
-                      outDoorCounter += 1
-                    }else if(location.venue == 'indoors' && idx == 0){
-                      outDoorCounter -= 1
-                    }
-                  })
-                  averageLat /= locations
-                  averageLng /= locations
-                  if(Math.abs(averageLat - this.lat) < 1 && Math.abs(averageLng - this.lng) < 1){
-                    if(outdoorArr.includes(weatherCondition) && outDoorCounter < 0){
-                    newArr.push(itinerary)
-                    }else if(!outdoorArr.includes(weatherCondition)){
-                      newArr.push(itinerary)
-                    }
-                  }
-                })
-              })
-              this.itineraryArr = newArr
-              this.getImages(this.itineraryArr)
-              this.hasSearched = true
-              })
-          }else{
-            this.lat = lat
-            this.lng = lng
-            var newArr = []
-            this.itineraryArr.map(itinerary => {
-              var averageLat = 0.0
-              var averageLng = 0.0
-              itinerary.attractions.map((attraction, idx) => {
-                var locations = 0
-                var outDoorCounter = 0
-                attraction.map(location => {
-                  locations += 1
-                  averageLat += location.lat
-                  averageLng += location.lng
-                  if(location.venue == 'outdoors' && idx == 0){
-                    outDoorCounter += 1
-                  }else if(location.venue == 'indoors' && idx == 0){
-                    outDoorCounter -= 1
-                  }
-                })
-                averageLat /= locations
-                averageLng /= locations
-                if(Math.abs(averageLat - this.lat) < 1 && Math.abs(averageLng - this.lng) < 1){
-                  if(outdoorArr.includes(weatherCondition) && outDoorCounter < 0){
-                    newArr.push(itinerary)
-                  }else if(!outdoorArr.includes(weatherCondition)){
-                    newArr.push(itinerary)
-                  }
-                }
-              })
-            })
-            this.itineraryArr = newArr
-            this.getImages(this.itineraryArr)
-            this.hasSearched = true
-          }
         },
         toggleFavouritesArr(id){
             const cookie = VueCookies.get('favourites')
@@ -231,12 +141,8 @@
             }
         },
         searchCountry() {
-
           this.getCountryWeather()
-
           this.whetherSearchedCountry = true
-
-          // input: this.searchedCountry
           let newItineraryArr = []
 
           for (let i=0; i<this.itineraryArr.length; i++) {
@@ -260,13 +166,6 @@
           }
 
           this.searchedCountryItineraryArr = newItineraryArr
-
-          // console.log(this.itineraryArr)
-
-          // this.searchedCountryItineraryArr = this.itineraryArr.filter((itinerary) => {
-          //   let itineraryCountry = itinerary.country
-          //   return itineraryCountry == this.searchedCountry
-          // })
 
         },
         getCountryWeather(){

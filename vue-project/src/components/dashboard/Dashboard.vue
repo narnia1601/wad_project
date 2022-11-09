@@ -4,7 +4,7 @@
 
 <template>
     <div class='container-fluid' id="dashboard">
-        <h1>Hello<span v-if="firstName.length > 0">, {{ firstName }}</span></h1>
+        <h1>Hello<span v-if="firstName != ''">, {{ firstName }}</span></h1>
         <div id="background"></div>
         <Itineraries></Itineraries>
     </div>
@@ -35,11 +35,9 @@ export default {
     methods: {
         getUser(){
             const cookie = VueCookies.get('id')
-            const url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/user'
-            axios.get(url, {
-                params: {
-                    _id: cookie
-                }
+            const url = this.$link + '/user'
+            axios.post(url, {
+                _id: cookie
             })
             .then(res => {
                 this.firstName = res.data.firstName

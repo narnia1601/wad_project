@@ -48,7 +48,7 @@
     created(){
       const cookie = VueCookies.get('id')
       if(cookie != null){
-          this.$router.push('/dashboard')
+          this.$router.push('/home')
       }
       setTimeout(this.typeText, this.newTextDelay + 200)
     },

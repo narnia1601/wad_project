@@ -53,7 +53,7 @@
                     <!-- Map col -->
                     <div class="col-5 mt-3">
                         <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
-                        <!-- <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" /> -->
+                        <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" />
                     </div>
                 </div>
             </div>
@@ -78,8 +78,8 @@
         },
         mounted() {
             this.index = this.$route.fullPath.split('/')[2]
-            var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/itineraries'
-            axios.get(url)
+            var url = this.$link + '/itineraries'
+            axios.post(url)
             .then(res => {
                 console.log(res.data)
                 res.data.map(itineraries => {
@@ -142,7 +142,7 @@
                     pathArr.map(path => {
                         pathStr += path
                     })
-                    var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/submitComment/' + pathStr
+                    var url = this.$link + '/submitComment/' + pathStr
                     axios.post(url, {
                         firstName: this.firstName,
                         comment: this.comment
@@ -163,11 +163,9 @@
             },
             getUser(){
                 const cookie = VueCookies.get('id')
-                const url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/user'
-                axios.get(url, {
-                    params: {
+                const url = this.$link + '/user'
+                axios.post(url, {
                         _id: cookie
-                    }
                 })
                 .then(res => {
                     this.firstName = res.data.firstName

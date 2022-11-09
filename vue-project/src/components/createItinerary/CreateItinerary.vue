@@ -196,9 +196,7 @@
                     var url = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
                     var country = ''
                     axios.get(url)
-                    .then(res => {
-                        console.log(res)
-    
+                    .then(res => {    
                         lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
                         lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
 
@@ -207,11 +205,8 @@
                         let locationNameParts = locationName.split(", ")
                         let country = locationNameParts[locationNameParts.length - 1]
                         this.country = country
-                        // console.log(country)
                     })
                     .then(res => {
-    
-                        console.log(res)
 
                         // clear error msg
                         this.errorMsg = ""
@@ -220,9 +215,6 @@
                         this.locationShowUser = ""
     
                         var idx = this.selectedDay - 1
-    
-                        console.log(this.selectedDay)
-                        console.log(idx)
     
                         this.itineraryArr[idx].push({
                             location: this.location,
@@ -272,14 +264,11 @@
                         'days': days,
                         "files": itineraryArrFinal
                     }
-                    console.log(body)
-                    // var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/upload'
-                    var url = 'http://localhost:8080/upload'
+                    var url = this.$link + '/upload'
                     axios.post(url, {
                         body: body,
                     })
                     .then(res => {
-                        console.log(res)
                         this.selectedDay = 1
                         this.itineraryDays = 1
                         this.itineraryDaysArr = [1]
@@ -303,8 +292,6 @@
                 let url2 = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
                     axios.get(url2)
                     .then(res => {
-                        console.log(res)
-
                         // clear error msg
                         this.errorMsg = ""
 
@@ -314,8 +301,6 @@
                         let locationName = res.data[0].display_name
                         let locationNameParts = locationName.split(", ")
                         let country = locationNameParts[locationNameParts.length - 1]
-
-                        console.log(country)
                     })
                     .catch(error => {
                         this.locationShowUser = ""
@@ -329,9 +314,6 @@
 
                 for (let i=0; i<dayItineraryArr.length; i++) {
                     let dayItinerary = dayItineraryArr[i]
-
-                    // dayItinerary is an object
-                    // console.log(dayItinerary)
 
                     if (dayItinerary.location == locationToDelete) {
                         dayItineraryArr.splice(i, 1)

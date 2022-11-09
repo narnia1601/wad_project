@@ -52,7 +52,7 @@
         },
         methods: {
             register(){
-                var url = 'https://us-central1-wadproject-f9644.cloudfunctions.net/app/register'
+                var url = this.$link + '/register'
                 if(this.firstName.length == 0 || this.lastName.length == 0 || this.email.length == 0 || this.password.length == 0){
                     this.error = 'Please fill up all information'
                 }else{

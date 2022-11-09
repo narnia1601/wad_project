@@ -19,19 +19,18 @@
                 </button>
                 </div>
             </div>
-            
         <div class="mt-2">
             <div class="row" id="card-info">
                 <h5 class="col-lg-7 col-md-12 text-lg-start">
-                    <a :href="href" style="text-decoration: none">{{ title }}</a>
+                    <a :href="href" style="text-decoration: none">{{ data.title }}</a>
                 </h5>
                 <div class="col-lg-5 col-md-12 text-lg-end">
                     <img id="heart" @click='toggleFavouritesArr(data._id)' v-if="favouritesArr == null || !favouritesArr.includes(data._id)" class="ms-2" src="../../assets/heart.png">
                     <img id="heart" @click='toggleFavouritesArr(data._id)' v-else class="ms-2" src="../../assets/heart2.png">
                 </div>
             </div>
-            <p class="text-muted" v-if="this.locations == 1">{{ locations }} location</p>
-            <p class="text-muted" v-else>{{ locations }} locations</p>
+            <p class="text-muted" v-if="getLocations == 1">{{ getLocations }} location</p>
+            <p class="text-muted" v-else>{{ getLocations }} locations</p>
         </div>
     </div>
 </template>
@@ -39,22 +38,17 @@
 <script>
     import VueCookies from 'vue-cookies'
     export default{
-        props: ['name', 'data', 'favouritesArr', 'toggleFavouritesArr', 'imageArr', 'link'],
-        data() {
-            return {
-                href: '/itinerary/' + this.link,
-                title: this.data.title,
-                locations: 0,
-                averageLat: 0.0,
-                averageLng: 0.0,
-            }
-        },
-        mounted(){
-            this.data.attractions.map(attraction => {
-                attraction.map(data => {
-                    this.locations += 1
+        props: ['name', 'data', 'favouritesArr', 'toggleFavouritesArr', 'imageArr', 'href'],
+        computed: {
+            getLocations(){
+                var locations = 0
+                this.data.attractions.map(attraction => {
+                    attraction.map(data => {
+                        locations += 1
+                    })
                 })
-            })
+                return locations
+            }
         },
     }
 </script>
