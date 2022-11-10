@@ -60,4 +60,7 @@ export default {
         height: 40vh;
         background-position: center;
     }
+    #dashboard{
+        padding: 0%;
+    }
 </style>
