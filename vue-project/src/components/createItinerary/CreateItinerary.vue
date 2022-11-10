@@ -9,13 +9,13 @@
         </div>
 
         <div class="row">
-            <div class="col-8">
+            <div class="col-12 col-sm-8">
                 <div class="mt-3">
                     <label for="name" class="form-label">Name of itinerary</label>
                     <input type="text" id="name" class="form-control" v-model="itineraryName">
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-4">
                 <div class="mt-3">
                     <label for="days" class="form-label">Number of days</label>
                     <input type="number" id="days" class="form-control" @change="changeItineraryDays(itineraryDays)" v-model="itineraryDays">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-8">
+            <div class="col-sm-12 col-12 col-md-8 order-sm-last order-md-first order-last">
                 <div v-if="newAttraction">
                     <div class="mt-3">
                         <label for="location" class="form-label">Location</label>
@@ -63,7 +63,7 @@
                 <button class="btn btn-primary w-100 mt-4" v-if="!newAttraction" @click="addAttraction">Add new Attraction</button>
                 <button class="btn btn-primary w-100 mt-4" v-if="!newAttraction && this.itineraryArr[0].length > 0" @click="submitItinerary">Confirm Itinerary</button>
             </div>
-            <div class="col-4 mt-4">
+            <div class="col-sm-12 col-12 col-md-4 order-sm-first order-md-last order-first mt-4">
                 <ul v-if="itineraryArr != null || itineraryArr[selectedDay - 1].length > 0" class="list-group">
                     <li class="list-group-item" v-for="itinerary in itineraryArr[selectedDay - 1]" :key="itinerary.id">
                         <!-- <div class="row">
