@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="sticky-top">
         <ul class="list-group">
             <div v-for="(itinerary) in itineraries" :key="itinerary.id">
                 <li v-if="favouritesArr.includes(itinerary._id)" class="list-group-item d-flex justify-content-between">

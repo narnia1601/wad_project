@@ -34,6 +34,7 @@
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
+
           <div v-else-if="whetherSearchedCountry" class="col-8">
             <div class="row">
               <div class="col-lg-4 col-md-6 mb-4" :key="searchedIdx" v-for="(searchedItinerary, searchedIdx) in searchedCountryItineraryArr">
@@ -42,6 +43,7 @@
             </div>
           </div>
           <div v-else class="col-8">
+
             <div class="row">
               <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
                 <ItineraryCard :imageArr="imageArr[idx]" :href="`/itinerary/${itinerary.title}`" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
