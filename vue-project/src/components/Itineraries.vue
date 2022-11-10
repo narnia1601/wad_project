@@ -5,7 +5,7 @@
             <div class="col-1"></div>
             <div class="col">
                 <div class="input-group mb-3 col-6" id="searchCountryBar">
-                    <input type="text" class="form-control" placeholder="Search for a country" v-model="searchedCountry" aria-label="country" aria-describedby="country">
+                    <input type="text" class="form-control" placeholder="Search for a country" v-on:keyup.enter='searchCountry' v-model="searchedCountry" aria-label="country" aria-describedby="country">
                     <span class="input-group-text btn btn-primary" @click="searchCountry" id="country">Search</span>
                 </div>
             </div>
