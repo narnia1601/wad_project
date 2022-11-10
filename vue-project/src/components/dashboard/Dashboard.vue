@@ -4,7 +4,7 @@
 
 <template>
     <div class='container-fluid' id="dashboard">
-        <h1>Hello<span v-if="firstName != ''">, {{ firstName }}</span></h1>
+        <h1>Hello<span v-if="firstName != ''">, {{ getUserName }}</span></h1>
         <div id="background"></div>
         <Itineraries></Itineraries>
     </div>
@@ -25,6 +25,12 @@ export default {
         }else{
             localStorage.setItem('reloaded', '1')
             location.reload()
+        }
+    },
+    computed: {
+        getUserName(){
+            console.log(this.firstName)
+            return this.firstName
         }
     },
     data() {

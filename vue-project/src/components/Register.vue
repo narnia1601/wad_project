@@ -67,7 +67,7 @@
                             this.error = res.data
                         }else{
                             VueCookies.set('id', res.data)
-                            this.$router.push('/dashboard')
+                            this.$router.push('/home')
                         }
                     })
                 }

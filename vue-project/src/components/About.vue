@@ -39,6 +39,7 @@
   }
   #about-background{
     background-image: linear-gradient(rgba(1,125,243,255), rgba(251,43,73,255));
+    padding-bottom: 20px;
   }
   @keyframes moveToRight {
     0% {

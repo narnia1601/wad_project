@@ -24,7 +24,7 @@ import ForgetPassword from './ForgetPassword.vue'
           </div>
 
           <!-- Moving text -->
-          <div class="col col-xs-12 col-lg-6 col-sm-12 order-xs-2">
+          <div class="col col-xs-12 d-none d-lg-block col-lg-6 col-sm-12 order-xs-2">
             <span class="typed-text">{{ typeValue }}</span>
             <span class="cursor" :class="{ 'typing': typeStatus }">&nbsp;</span>
           </div>
