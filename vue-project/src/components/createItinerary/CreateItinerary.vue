@@ -1,9 +1,6 @@
 <template>
     <div class="container">
-        <!-- For successful submission of itinerary -->
         <div class="alert alert-success mt-3" v-if="itinerarySubmitted">Itinerary Created!</div>
-
-        <!-- For error msg -->
         <div v-if="errorMsg !== ''" class="alert alert-warning mt-3">
             {{errorMsg}}
         </div>
@@ -32,9 +29,6 @@
                     <button v-if="selectedDay == idx" class="btn btn-primary me-2 mb-2">Day {{ idx }}</button>
                     <button v-else class="btn btn-outline-primary me-2 mb-2">Day {{ idx }}</button>
                 </span>
-                <!-- <span>
-                    <h5 style="display: inline;">Week {{ rowIdx }}</h5>
-                </span> -->
                 <hr>
             </div>
         </div>
@@ -66,23 +60,12 @@
             <div class="col-sm-12 col-12 col-md-4 order-sm-first order-md-last order-first mt-4">
                 <ul v-if="itineraryArr != null || itineraryArr[selectedDay - 1].length > 0" class="list-group">
                     <li class="list-group-item" v-for="itinerary in itineraryArr[selectedDay - 1]" :key="itinerary.id">
-                        <!-- <div class="row">
-                            <div class="col text-center">
-                                <h5>{{ itinerary.location }}</h5>
-                                <p v-if="itinerary.description.length > 100">{{ itinerary.description.substring(0,100) + '...' }}</p>
-                                <p v-else>{{ itinerary.description }}</p>
-                            </div>
-                            <div class="col text-center w-50 d-flex align-items-center">
-                                <img id="img" :src="itinerary.image" alt="">
-                            </div>
-                        </div> -->
-
                         <div class="row">
                             <div class="col-10 text-center">
                                 <h5>{{ itinerary.location }}</h5>
                             </div>
                             <div class="col-2 d-flex justify-content-end">
-                                <svg @click="deleteAttraction(itinerary.location)" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                <svg id="delete" @click="deleteAttraction(itinerary.location)" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
                             </div>
                         </div>
 
@@ -143,16 +126,12 @@
             },
             changeItineraryDays(newDays){
                 if (newDays < this.itineraryArr.length){
-                    // this.itineraryArr.pop()
-                    // this.itineraryDaysArr.pop()
 
                     let daysDifference = this.itineraryArr.length - newDays
                     this.itineraryArr.splice(newDays, daysDifference)
                     this.itineraryDaysArr.splice(newDays, daysDifference)
                 }
                 else if (newDays > this.itineraryArr.length){
-                    // this.itineraryArr.push([])
-                    // this.itineraryDaysArr.push(newDays)
 
                     let currentItineraryArrLength = this.itineraryArr.length
 
@@ -171,8 +150,6 @@
                 }
             },
             submitAttraction(){
-
-                // error handling, ensuring data is all filled
                 if (this.itineraryName === '') {
                     this.errorMsg = "Please fill in the itinerary name."
                     this.scrollFunction()
@@ -187,8 +164,6 @@
                     this.errorMsg = "Please add at least 1 image of the attraction."
                     this.scrollFunction()
                 }
-
-                // get location
                 else {
                     var lat = 0
                     var lng = 0
@@ -199,19 +174,13 @@
                     .then(res => {    
                         lat = parseFloat(parseFloat(res.data[0].lat).toFixed(2))
                         lng = parseFloat(parseFloat(res.data[0].lon).toFixed(2))
-
-                        // get country of location
                         let locationName = res.data[0].display_name
                         let locationNameParts = locationName.split(", ")
                         let country = locationNameParts[locationNameParts.length - 1]
                         this.country = country
                     })
                     .then(res => {
-
-                        // clear error msg
                         this.errorMsg = ""
-
-                        // clear previous location
                         this.locationShowUser = ""
     
                         var idx = this.selectedDay - 1
@@ -251,9 +220,6 @@
                     else {
                         itineraryArrFinal.push(dayItinerary)
                     }
-                    // if(dayItinerary.length > 0){
-                    //     itineraryArrFinal.push(dayItinerary)
-                    // }
                 })
 
                 if (!whetherAnyDaysNoAttraction) {
@@ -292,12 +258,9 @@
                 let url2 = 'https://nominatim.openstreetmap.org/search?q=' + this.location + '&format=json'
                     axios.get(url2)
                     .then(res => {
-                        // clear error msg
                         this.errorMsg = ""
 
                         this.locationShowUser = res.data[0].display_name
-
-                        // get country of location
                         let locationName = res.data[0].display_name
                         let locationNameParts = locationName.split(", ")
                         let country = locationNameParts[locationNameParts.length - 1]
@@ -309,7 +272,6 @@
                     })
             },
             deleteAttraction(locationToDelete) {
-                // array
                 let dayItineraryArr = this.itineraryArr[this.selectedDay - 1]
 
                 for (let i=0; i<dayItineraryArr.length; i++) {
@@ -326,7 +288,13 @@
 </script>
 
 <style scoped>
+svg{
+    cursor: pointer;
+}
     #img{
         width: 100%
+    }
+    #delete:hover{
+        cursor: pointer
     }
 </style>

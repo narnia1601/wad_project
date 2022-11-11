@@ -12,15 +12,11 @@
             <div class="col-1"></div>
         </div>
     </div>
-
-    <!-- For error msg -->
     <div v-if="errorMsg !== ''">
       <div class="alert alert-danger text-center" role="alert">
         {{errorMsg}}
       </div>
     </div>
-
-    <!-- Display weather data -->
       <div class="card" v-if="weatherDataArray.length > 0">
           <WeatherCard :weatherDataArray="weatherDataArray"></WeatherCard>
       </div>
