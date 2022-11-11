@@ -326,6 +326,9 @@
 </script>
 
 <style scoped>
+svg{
+    cursor: pointer;
+}
     #img{
         width: 100%
     }
