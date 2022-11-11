@@ -14,44 +14,42 @@
     </div>
 
     <!-- For error msg -->
-    <div v-if="errorMsg !== ''" class="row">
+    <div v-if="errorMsg !== ''">
       <div class="alert alert-danger text-center" role="alert">
         {{errorMsg}}
       </div>
     </div>
 
     <!-- Display weather data -->
-    <div class="row">
       <div class="card" v-if="weatherDataArray.length > 0">
           <WeatherCard :weatherDataArray="weatherDataArray"></WeatherCard>
       </div>
-    </div>
 
     <div class="mt-4">
       <div class="row">
+          <div class="col-md-4 mb-3 order-md-2">
+              <FavouriteItinerary :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :itineraries="itineraryArr"></FavouriteItinerary>
+          </div>
           <div v-if="itineraryArr.length == 0" class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
 
-          <div v-else-if="whetherSearchedCountry" class="col-8">
+          <div v-else-if="whetherSearchedCountry" class="col-md-8 order-md-1">
             <div class="row">
               <div class="col-lg-4 col-md-6 mb-4" :key="searchedIdx" v-for="(searchedItinerary, searchedIdx) in searchedCountryItineraryArr">
                 <ItineraryCard :toggleFavouritesArr="toggleFavouritesArr" :href="`/itinerary/${searchedItinerary.title}`" :favouritesArr="favouritesArr" :imageArr="imageArr[searchedIdx]" :name="'carouselCaptions' + searchedIdx" :data="searchedItinerary"></ItineraryCard>
               </div>
             </div>
           </div>
-          <div v-else class="col-8">
+          <div v-else class="col-md-8 order-md-1">
 
             <div class="row">
               <div class="col-lg-4 col-md-6 mb-4" :key="idx" v-for="(itinerary, idx) in itineraryArr">
                 <ItineraryCard :imageArr="imageArr[idx]" :href="`/itinerary/${itinerary.title}`" :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :name="'carouselCaptions' + idx" :data="itinerary"></ItineraryCard>
               </div>
             </div>
-          </div>
-          <div class="col-4">
-              <FavouriteItinerary :favouritesArr="favouritesArr" :toggleFavouritesArr="toggleFavouritesArr" :itineraries="itineraryArr"></FavouriteItinerary>
           </div>
       </div>
     </div>
@@ -155,8 +153,6 @@
             if (itineraryCountry == this.searchedCountry) {
               newItineraryArr.push(itinerary)
               this.getImages(newItineraryArr)
-              console.log(this.imageArr)
-              console.log(newItineraryArr)
             }
           }
 

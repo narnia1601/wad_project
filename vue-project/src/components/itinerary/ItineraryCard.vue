@@ -21,10 +21,10 @@
             </div>
         <div class="mt-2">
             <div class="row" id="card-info">
-                <h5 class="col-lg-7 col-md-12 text-lg-start">
+                <h5 class="col-10 text-start">
                     <a :href="href" style="text-decoration: none">{{ data.title }}</a>
                 </h5>
-                <div class="col-lg-5 col-md-12 text-lg-end">
+                <div class="col-2 text-end">
                     <img id="heart" @click='toggleFavouritesArr(data._id)' v-if="favouritesArr == null || !favouritesArr.includes(data._id)" class="ms-2" src="../../assets/heart.png">
                     <img id="heart" @click='toggleFavouritesArr(data._id)' v-else class="ms-2" src="../../assets/heart2.png">
                 </div>

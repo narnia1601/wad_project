@@ -29,7 +29,6 @@ export default {
     },
     computed: {
         getUserName() {
-            console.log(this.firstName)
             return this.firstName
         },
         greet() {

@@ -14,9 +14,6 @@
             <a href="/new" class="nav-link">Create Itinerary</a>
           </li>
           <li class="nav-item">
-            <a href="/home" class="nav-link">Dashboard</a>
-          </li>
-          <li class="nav-item">
             <a href="/" v-if="cookie != null" @click='logout' class="nav-link">Logout</a>
           </li>
         </ul>

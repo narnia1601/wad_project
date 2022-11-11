@@ -31,6 +31,7 @@
 <style scoped>
   #img{
         background: url('../assets/holiday.jpeg');
+        background-position: center;
         background-size: cover;
         height: 85vh;
   }

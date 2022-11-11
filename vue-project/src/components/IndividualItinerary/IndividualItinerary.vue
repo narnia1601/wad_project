@@ -35,8 +35,13 @@
     
             <div class="container-fluid">
                 <div class="row">
+                    <!-- Map col -->
+                    <div class="col-md-5 order-md-2 mt-3">
+                        <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
+                        <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" />
+                    </div>
                     <!-- Content Boxes col -->
-                    <div class="col-7 pe-0">
+                    <div class="col-md-7 order-md-1 pe-md-0">
                         <div id="content">
                             <ContentBox :class="'content-' + data['location'] == selectedContent ? 'active' : ''" :id="'content-' + data['location']" v-for="data in itineraryArr[selectedDay]" :data="data" :key="data.id"></ContentBox>
                         </div>
@@ -48,12 +53,6 @@
                             <div class="text-danger" v-if="error != ''">{{ error }}</div>
                             <Comment class="mb-3 mt-3" v-for="comment in comments" :key="comment.id" :firstName="comment.firstName" :comment="comment.comment"></Comment>
                         </div>
-                    </div>
-    
-                    <!-- Map col -->
-                    <div class="col-5 mt-3">
-                        <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
-                        <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" />
                     </div>
                 </div>
             </div>
@@ -81,7 +80,6 @@
             var url = this.$link + '/itineraries'
             axios.post(url)
             .then(res => {
-                console.log(res.data)
                 res.data.map(itineraries => {
                     var titleString = ''
                     var titleArr = itineraries.title.split(' ')
