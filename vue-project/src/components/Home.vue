@@ -10,8 +10,6 @@ import ForgetPassword from './ForgetPassword.vue'
     <div id="background">
       <div class="container px-4">
         <div class="row">
-
-          <!-- Log in card -->
           <div class="col px-4 col-xs-12 col-lg-6 col-sm-12 order-xs-1">
             <div class="card">
               <Login v-if="isLogin && isForgetPassword == false" :toggleLoginOrRegister="toggleLoginOrRegister"
@@ -22,15 +20,12 @@ import ForgetPassword from './ForgetPassword.vue'
                 :toggleLoginOrRegister="toggleLoginOrRegister" :toggleForgetPassword="toggleForgetPassword"></Register>
             </div>
           </div>
-
-          <!-- Moving text -->
           <div class="col col-xs-12 d-none d-lg-block col-lg-6 col-sm-12 order-xs-2">
             <span class="typed-text">{{ typeValue }}</span>
             <span class="cursor" :class="{ 'typing': typeStatus }">&nbsp;</span>
           </div>
 
         </div>
-        <!-- end of row -->
       </div>
     </div>
     

@@ -9,10 +9,7 @@
         </div>
 
         <div v-else>
-            <!-- Header -->
             <IndividualItineraryHeader :mainHeader="title" :secondHeader="days != null ? (days + (days > 1 ? ' days' : ' day')) : ''" />
-    
-            <!-- Days scroll bar -->
             <div class="container mt-3">
                 <div v-for="rowIdx in Math.ceil(itineraryDaysArr.length / 7)" :key="rowIdx.id">
     
@@ -24,9 +21,6 @@
                         <button v-if="selectedDay == idx - 1" class="btn btn-primary me-2 mb-2">Day {{ idx }}</button>
                         <button v-else class="btn btn-outline-primary me-2 mb-2">Day {{ idx }}</button>
                     </span>
-                    <!-- <span>
-                        <h5 style="display: inline;">Week {{ rowIdx }}</h5>
-                    </span> -->
                     <hr v-if="rowIdx > 1">
                 </div>
             </div>
@@ -35,12 +29,9 @@
     
             <div class="container-fluid">
                 <div class="row">
-                    <!-- Map col -->
                     <div class="col-md-5 order-md-2 mt-3">
-                        <!-- UN-COMMENT WHEN READY TO SUBMIT APP -->
                         <Map class="map" :markerClicked="markerClicked" :coordinatesArr="coordinatesArr" :totalItineraryArr="totalItineraryArr" />
                     </div>
-                    <!-- Content Boxes col -->
                     <div class="col-md-7 order-md-1 pe-md-0">
                         <div id="content">
                             <ContentBox :class="'content-' + data['location'] == selectedContent ? 'active' : ''" :id="'content-' + data['location']" v-for="data in itineraryArr[selectedDay]" :data="data" :key="data.id"></ContentBox>
@@ -181,10 +172,6 @@ hr {
     position: sticky;
     top: 0;
 }
-/* #content{
-    max-height: 70vh;
-    overflow: scroll;
-} */
 .active{
     transform: translate(-10px, -10px);
     box-shadow: 10px 10px rgba(0, 0, 0, 0.7);

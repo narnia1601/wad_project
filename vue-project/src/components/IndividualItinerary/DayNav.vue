@@ -1,7 +1,4 @@
 <template>
-
-    <!-- <div class="swiper-container mx-auto"> -->
-    
     <div>
         <div class="d-flex justify-content-center">
             <button v-for="day in Number(numDays)" :key="day" class="btn btn-yellow m-2 mb-0">Day {{day}}</button>

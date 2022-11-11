@@ -18,9 +18,7 @@
 
 <style scoped>
     #map {
-        /* height: 100vh; */
         height: 400px;
-        /* height: 100%; */
         width: 100%;
     }
 </style>
