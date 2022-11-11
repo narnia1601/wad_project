@@ -18,7 +18,7 @@
             <div class="col-12 col-sm-4">
                 <div class="mt-3">
                     <label for="days" class="form-label">Number of days</label>
-                    <input type="number" id="days" class="form-control" @change="changeItineraryDays(itineraryDays)" v-model="itineraryDays">
+                    <input type="number" id="days" class="form-control" @keyup="changeItineraryDays(itineraryDays)" v-model="itineraryDays">
                 </div>
             </div>
         </div>
