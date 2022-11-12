@@ -9,7 +9,6 @@ VSCode
 # Project Setup
 
 ```
-cd vue-project
 npm install
 ```
 
